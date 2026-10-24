@@ -1,5 +1,5 @@
 return {
-    "City.lua"
+    "City.lua",
     "WinterLand.lua",
     "Inferno.lua",
 }
