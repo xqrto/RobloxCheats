@@ -4022,12 +4022,7 @@ local function createTabArrows()
 
 	if canScroll then
 		tabBarBg.ClipsDescendants = true
-		-- Keep the list between the two arrow buttons. Scroll its canvas,
-		-- not the whole ScrollingFrame; moving the frame itself caused the
-		-- tabs to slide completely out of view when Credits was selected.
-		tabList.Position = UDim2.new(0, 22, 0, 0)
 		tabList.Size = UDim2.new(1, -60, 1, 0)
-		tabList.CanvasPosition = Vector2.new(0, 0)
 	end
 
 	local function metrics()
@@ -4052,17 +4047,15 @@ local function createTabArrows()
 		local avail = tabList.AbsoluteSize.X
 		local _, total = metrics()
 		if avail <= 0 then return end
-		-- Use the actual tab canvas width so the final tab cannot be
-		-- overscrolled off-screen due to small layout/measurement differences.
-		local canvasWidth = math.max(total, tabList.AbsoluteCanvasSize.X)
-		local maxScroll = math.max(0, canvasWidth - avail)
+		local maxScroll = math.max(0, total - avail)
 		scroll = math.clamp(scroll, 0, maxScroll)
+		local targetPosition = UDim2.new(0, 30 - scroll, 0, 0)
 		if tabScrollTween then
 			pcall(function() tabScrollTween:Cancel() end)
 			tabScrollTween = nil
 		end
 		tabScrollTween = TweenService:Create(tabList, TweenInfo.new(0.16, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-			CanvasPosition = Vector2.new(scroll, 0)
+			Position = targetPosition
 		})
 		tabScrollTween:Play()
 	end
@@ -4153,11 +4146,7 @@ local function createTabArrows()
 
 	tabBar:GetPropertyChangedSignal("Visible"):Connect(function()
 		if tabBar.Visible then
-			task.defer(function()
-				-- Recalculate after the bar has its final rendered size.
-				apply()
-				revealActive()
-			end)
+			task.defer(revealActive)
 		end
 	end)
 
