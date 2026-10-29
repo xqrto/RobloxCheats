@@ -1633,8 +1633,8 @@ function Library:CreateWindow(config)
     win.ListeningCount = 0
     win.Size = config.Size or UDim2.fromOffset(DEFAULT_WIDTH, DEFAULT_HEIGHT)
 
-    local toggleText = string.upper(tostring(config.Title or "ULTIMATE UI"))
-    local subtitle = string.upper(tostring(config.Subtitle or "MODERN INTERFACE"))
+    local toggleText = string.upper(tostring(config.Title or "Title"))
+    local subtitle = string.upper(tostring(config.Subtitle or "Made by xqrto"))
     local playerGui = LocalPlayer:WaitForChild("PlayerGui")
 
     local screenGui = new("ScreenGui", {
